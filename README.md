@@ -1,6 +1,8 @@
-You asked a simple question, **how to display details from an object to a TextBox*.
+Your simple question is **how to display details from an object to a TextBox**.
 
-The simple answer is to override the `ToString` method and I see that you've done a good job of this already. But let's try and boil all that code into a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) that includes data binding as Jimi so rightly recommended. The bare bones of our bindable class has this override:
+I see in your code that you've done a good job of overriding the `ToString` method. In a sense, you answered your own question because that's what it takes!
+
+But let's try and boil all that code into a [minimal reproducible example](https://stackoverflow.com/help/minimal-reproducible-example) that will include data binding as Jimi so rightly recommended. The bare bones of our bindable class has this override:
 
     // Minimal example of a class
     class AircraftDetails : INotifyPropertyChanged
@@ -22,6 +24,10 @@ The simple answer is to override the `ToString` method and I see that you've don
         .
     }
 
+Next, write the main form code to display details from an object to a TextBox.
+
+[![show from button][1]][1]
+
 One salient point is that `ToString()` can just be called on `object` because it's [virtual](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/keywords/virtual).
 
     public partial class MainForm : Form
@@ -36,6 +42,7 @@ One salient point is that `ToString()` can just be called on `object` because it
             // For demonstration purposes, make an object
             object o = new AircraftDetails
             {
+                Flight = "UA2907",
                 Airline = Airline.United,
                 Fuel = 50000,
                 OnboardBags = 237,
@@ -44,34 +51,13 @@ One salient point is that `ToString()` can just be called on `object` because it
             textBoxMultiline.Text = o.ToString();
         }
     }
-
 ***
-**Main Form**
 
-    public partial class MainForm : Form
-    {
-        public MainForm()
-        {
-            InitializeComponent();
-            buttonShowObjectInTextbox.Click += onButtonShowObjectInTextbox;
-        }
-        private void onButtonShowObjectInTextbox(object? sender, EventArgs e)
-        {
-            object o = new AircraftDetails
-            {
-                Airline = Airline.United,
-                Fuel = 50000,
-                OnboardBags = 237,
-                CheckedBags = 500,
-            };
-            textBoxMultiline.Text = o.ToString();
-        }
-    }
+Your question also states **I have a ListBox called `aircraftList`...**. 
 
-***
-**Binding demo**
+[![form with listbox][2]][2]
 
-Your question also states **I have a ListBox called `aircraftList` which shows only the aircraft name**. When a listbox is bound to `BindingList<AircraftDetails>` you can specify the `DisplayMember` property. So now add code to the main form's `Load` event to set this up:
+When a listbox is bound to `BindingList<AircraftDetails>` you can specify the `DisplayMember` property. So now add code to the main form's `Load` event to set this up:
 
     public partial class MainForm : Form
     {
@@ -124,3 +110,7 @@ Your question also states **I have a ListBox called `aircraftList` which shows o
     }
 
 ![screenshot-listbox]()
+
+
+  [1]: https://i.stack.imgur.com/6F065.png
+  [2]: https://i.stack.imgur.com/XS1ZY.png

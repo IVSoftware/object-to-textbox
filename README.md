@@ -109,8 +109,6 @@ When a listbox is bound to `BindingList<AircraftDetails>` you can specify the `D
         BindingList<AircraftDetails> Details = new BindingList<AircraftDetails>();
     }
 
-![screenshot-listbox]()
-
 
   [1]: https://i.stack.imgur.com/6F065.png
   [2]: https://i.stack.imgur.com/XS1ZY.png
